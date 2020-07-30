@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeleniumTasks", "SeleniumTasks\SeleniumTasks.csproj", "{D35D8936-C5C2-451A-B036-C0115D869442}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterationTests", "InterationTests\InterationTests.csproj", "{25687F20-0D4F-4017-AC51-6D89BF90412D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterationTests", "IntegrationTests\InterationTests.csproj", "{F75A8271-D06A-493E-9CD9-95ED95AA4A41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{D35D8936-C5C2-451A-B036-C0115D869442}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D35D8936-C5C2-451A-B036-C0115D869442}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D35D8936-C5C2-451A-B036-C0115D869442}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25687F20-0D4F-4017-AC51-6D89BF90412D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25687F20-0D4F-4017-AC51-6D89BF90412D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25687F20-0D4F-4017-AC51-6D89BF90412D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25687F20-0D4F-4017-AC51-6D89BF90412D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F75A8271-D06A-493E-9CD9-95ED95AA4A41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F75A8271-D06A-493E-9CD9-95ED95AA4A41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F75A8271-D06A-493E-9CD9-95ED95AA4A41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F75A8271-D06A-493E-9CD9-95ED95AA4A41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
