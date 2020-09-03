@@ -4,7 +4,7 @@ This repo contains automated tests for an exam.
 
 ## SeleniumTasks
 
-Contains automated tests for 3 different scenarios using Selenium/ and C#
+Contains automated tests for 3 different scenarios using Selenium and C#
   
   - https://www.automatetheplanet.com/
   -	http://automationpractice.com/
