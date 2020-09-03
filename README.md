@@ -1,4 +1,4 @@
-# MyAutomatedTests
+# AutomatedTests
 
 The tests are wrote like preparation for an exam which was took with excellence. 
 
