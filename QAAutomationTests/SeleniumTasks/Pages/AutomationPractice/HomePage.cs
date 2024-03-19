@@ -1,16 +1,16 @@
 ﻿using AutoFixture;
 using OpenQA.Selenium;
-using SeleniumTasks.Core;
+using SeleniumProject.BaseProject;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages.AutomationPractice
+namespace SeleniumProject.Pages.AutomationPractice
 {
     public class HomePage : BasePage
     {
-        public HomePage(WebDriver driver) : base(driver)
-        {
-        }
+        public HomePage(WebDriver driver) : base(driver) { }
 
-        public override string URL { get { return "http://automationpractice.com/"; } }
+        public override string URL => "http://automationpractice.com/";
 
         public WebElement SignInHeader => Driver.FindClickableElement(By.XPath("//*[@id='header']//a[@class='login']"));
 
@@ -23,8 +23,8 @@ namespace SeleniumTasks.Pages.AutomationPractice
             var fixture = new Fixture();
             var randomEmail = fixture.Create<string>() + "@gmail.com";
 
-            EmailInput.SendKeys(randomEmail);
-            SignInButton.Click();
+            EmailInput.FillText(randomEmail);
+            SignInButton.WaitAndClick();
         }
     }
 }

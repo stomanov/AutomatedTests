@@ -20,7 +20,5 @@ namespace IntegrationTests.Models
 
         [JsonProperty("links", NullValueHandling = NullValueHandling.Ignore)]
         public List<Link> Links { get; set; }
-
-        public static Book FromJson(string json) => JsonConvert.DeserializeObject<Book>(json, Converter.Converter.Settings);
     }
 }

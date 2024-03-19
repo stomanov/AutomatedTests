@@ -1,15 +1,13 @@
 ﻿using OpenQA.Selenium;
-using SeleniumTasks.Core;
-using SeleniumTasks.Pages.DemoQA;
+using SeleniumProject.Pages.DemoQA;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages
+namespace SeleniumProject.Pages
 {
     public class TooltipsPage : DemoQAPage
     {
-        public TooltipsPage(WebDriver driver) 
-            : base(driver)
-        {
-        }
+        public TooltipsPage(WebDriver driver) : base(driver) { }
 
         public WebElement TextInput => Driver.FindElement(By.XPath("//*[@id='toolTipTextField']"));
 

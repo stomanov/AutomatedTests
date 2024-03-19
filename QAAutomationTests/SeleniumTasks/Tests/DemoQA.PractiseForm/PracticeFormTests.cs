@@ -1,76 +1,68 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.Interfaces;
-using SeleniumTasks.Factories.DemoQA;
-using SeleniumTasks.Models.DemoQA;
-using SeleniumTasks.Pages.DemoQA;
-using SeleniumTasks.Pages.DemoQA.PracticeForm;
+using SeleniumProject.BaseProject;
+using SeleniumProject.Entities.DemoQA;
+using SeleniumProject.Pages.DemoQA;
+using SeleniumProject.Pages.DemoQA.PracticeForm;
 
-namespace SeleniumTasks.Tests.DemoQA.PracticeForm
+namespace SeleniumProject.Tests.DemoQA.PracticeForm
 {
     class PracticeFormTests : BaseTest
     {
-        private HomePage _homePage;
-        private DemoQAPage _demoQAPage;
-        private PracticeFormPage _practiceFormPage;
-        private PracticeFormModel _userRegistration;
+        private HomePage homePage;
+        private DemoQAPage demoQAPage;
+        private PracticeFormPage practiceFormPage;
+        private PracticeFormModel userRegistration;
 
         [SetUp]
         public void Setup()
         {
-            InitializeMaximizedBrowser();
+            homePage = new HomePage(Driver);
+            demoQAPage = new DemoQAPage(Driver);
+            practiceFormPage = new PracticeFormPage(Driver);
 
-            _homePage = new HomePage(Driver);
-            _demoQAPage = new DemoQAPage(Driver);
-            _practiceFormPage = new PracticeFormPage(Driver);
-            
-            Driver.NavigateTo(_homePage.URL);
-            _homePage.CategoryCard("Forms").Click();
-            _demoQAPage.LeftPanelSubMenu("Practice Form").Click();
-            _userRegistration = PracticeFormFactory.CreateValidUser();
+            Driver.NavigateTo(homePage.URL);
+            homePage.CategoryCard("Forms").WaitAndClick();
+            demoQAPage.LeftPanelSubMenu("Practice Form").WaitAndClick();
+            userRegistration = PracticeFormFactory.CreateValidUser();
         }
 
         [TearDown]
         public void TearDown()
         {
-            if (TestContext.CurrentContext.Result.Outcome != ResultState.Success)
-            {
-                TakeScreenshot(@"..\..\..\");
-            }
 
-            Driver.Quit();
         }
 
         [Test]
         public void ThanksMessageDisplayed_When_FillFormWithValidData()
         {
-            _practiceFormPage.FillRegistrationForm(_userRegistration);
-            _practiceFormPage.ClickSubmit();
+            practiceFormPage.FillRegistrationForm(userRegistration);
+            practiceFormPage.ClickSubmit();
 
-            _practiceFormPage.AssertSuccessful_When_FillFormWithValidData(_practiceFormPage.Popup.ThanksMessage.Text);
+            practiceFormPage.AssertSuccessful_When_FillFormWithValidData(practiceFormPage.Popup.ThanksMessage.Text);
         }
 
         [Test]
         public void GreenColorDisplayed_When_FillFormWithValidData()
         {
-            _userRegistration.LastName = string.Empty;
+            userRegistration.LastName = string.Empty;
 
-            _practiceFormPage.FillRegistrationForm(_userRegistration);
-            _practiceFormPage.ClickSubmit();
-            _practiceFormPage.FirstName.Click();
+            practiceFormPage.FillRegistrationForm(userRegistration);
+            practiceFormPage.ClickSubmit();
+            practiceFormPage.FirstName.WaitAndClick();
 
-            _practiceFormPage.AssertSuccessBorderColor(_practiceFormPage.FirstName);
+            practiceFormPage.AssertSuccessBorderColor(practiceFormPage.FirstName);
         }
 
         [Test]
         public void ErrorMessageDisplayed_When_FillFormWithoutFirstName()
         {
-            _userRegistration.FirstName = string.Empty;
+            userRegistration.FirstName = string.Empty;
 
-            _practiceFormPage.FillRegistrationForm(_userRegistration);
-            _practiceFormPage.ClickSubmit();
-            _practiceFormPage.FirstName.Click();
+            practiceFormPage.FillRegistrationForm(userRegistration);
+            practiceFormPage.ClickSubmit();
+            practiceFormPage.FirstName.WaitAndClick();
 
-            _practiceFormPage.AssertErrorBorderColor(_practiceFormPage.FirstName);
+            practiceFormPage.AssertErrorBorderColor(practiceFormPage.FirstName);
         }
     }
 }

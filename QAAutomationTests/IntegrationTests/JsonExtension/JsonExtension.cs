@@ -1,12 +1,11 @@
-﻿using IntegrationTests.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace IntegrationTests.JsonExtension
 {
     public static class JsonExtension
     {
-        public static string ToJson(this Author self) => JsonConvert.SerializeObject(self, Converter.Converter.Settings);
+        public static T FromJson<T>(this string json) => JsonConvert.DeserializeObject<T>(json, Converter.Converter.Settings);
 
-        public static string ToJson(this Book self) => JsonConvert.SerializeObject(self, Converter.Converter.Settings);
+        public static string ToJson<T>(this T self) => JsonConvert.SerializeObject(self, Converter.Converter.Settings);
     }
 }

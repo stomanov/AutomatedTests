@@ -1,16 +1,16 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using SeleniumTasks.Core;
+using SeleniumProject.BaseProject;
 using System.Collections.Generic;
 using System.Linq;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages.DemoQA.SelectablePage
+namespace SeleniumProject.Pages.DemoQA.SelectablePage
 {
     public class SelectablePage : BasePage
     {
-        public SelectablePage(WebDriver driver) : base (driver)
-        {
-        }
+        public SelectablePage(WebDriver driver) : base (driver) { }
 
         public WebElement ListTab => Driver.FindElement(By.XPath("//*[@id='demo-tab-list']"));
 

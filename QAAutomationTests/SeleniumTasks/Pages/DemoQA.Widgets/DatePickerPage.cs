@@ -1,16 +1,15 @@
 ﻿using OpenQA.Selenium;
-using SeleniumTasks.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages.DemoQA
+namespace SeleniumProject.Pages.DemoQA
 {
     public class DatePickerPage : DemoQAPage
     {
-        public DatePickerPage(WebDriver driver) : base(driver)
-        {
-        }
+        public DatePickerPage(WebDriver driver) : base(driver) { }
 
         public WebElement SelectDateInput => Driver.FindElement(By.XPath("//*[@id='datePickerMonthYearInput']"));
 
@@ -26,10 +25,10 @@ namespace SeleniumTasks.Pages.DemoQA
 
         public void SelectCurrentMonth(string currentMonth)
         {
-            SelectDateInput.SendKeys(Keys.Control + "a" + Keys.Backspace);
-            SelectMonthDropDownMenu.Click();
+            SelectDateInput.FillText(Keys.Control + "a" + Keys.Backspace);
+            SelectMonthDropDownMenu.WaitAndClick();
             WebElement monthOption = SelectMonthDropDownMenu.FindElement(By.XPath($".//*[normalize-space(text())='{currentMonth}']"));
-            monthOption.Click();
+            monthOption.WaitAndClick();
         }
 
         public int CreateRandomDayOfTheMonth()
@@ -41,16 +40,16 @@ namespace SeleniumTasks.Pages.DemoQA
 
         public void SelectRandomDay(int randomDayOfTheMonth)
         {
-            DayOption[randomDayOfTheMonth].Click();
-            SelectDateInput.Click();
+            DayOption[randomDayOfTheMonth].WaitAndClick();
+            SelectDateInput.WaitAndClick();
         }
 
         public void TypeRandomDate()
         {
             var random = new Random();
             var randomDate = $"{random.Next(12)}" + "/" + $"{random.Next(28)}" + "/" + "2020";
-            SelectDateInput.SendKeys(Keys.Control + "a" + Keys.Backspace);
-            SelectDateInput.SendKeys(randomDate.ToString());
+            SelectDateInput.FillText(Keys.Control + "a" + Keys.Backspace);
+            SelectDateInput.FillText(randomDate.ToString());
         }
 
         public void HoverOverSelectedDay()

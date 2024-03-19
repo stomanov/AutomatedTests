@@ -1,8 +1,7 @@
 ﻿using AutoFixture;
-using SeleniumTasks.Models.DemoQA;
 using System;
 
-namespace SeleniumTasks.Factories.DemoQA
+namespace SeleniumProject.Entities.DemoQA
 {
     public static class PracticeFormFactory
     {

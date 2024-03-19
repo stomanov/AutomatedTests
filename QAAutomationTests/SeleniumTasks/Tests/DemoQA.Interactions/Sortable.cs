@@ -1,61 +1,54 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.Interfaces;
-using SeleniumTasks.Pages.DemoQA;
-using SeleniumTasks.Pages.DemoQA.SortablePage;
+using SeleniumProject.BaseProject;
+using SeleniumProject.Pages.DemoQA;
+using SeleniumProject.Pages.DemoQA.SortablePage;
 
-namespace SeleniumTasks.Tests.DemoQA.Interactions
+namespace SeleniumProject.Tests.DemoQA.Interactions
 {
     class Sortable : BaseTest
     {
-        private HomePage _homePage;
-        private DemoQAPage _demoQAPage;
-        private SortablePage _sortablePage;
-        private int _index;
+        private HomePage homePage;
+        private DemoQAPage demoQAPage;
+        private SortablePage sortablePage;
+        private int index;
 
         [SetUp]
         public void SetUp()
         {
-            InitializeMaximizedBrowser();
+            homePage = new HomePage(Driver);
+            demoQAPage = new DemoQAPage(Driver);
+            sortablePage = new SortablePage(Driver);
 
-            _homePage = new HomePage(Driver);
-            _demoQAPage = new DemoQAPage(Driver);
-            _sortablePage = new SortablePage(Driver);
-
-            Driver.NavigateTo(_homePage.URL);
-            _homePage.CategoryCard("Interactions").Click();
-            Driver.ScrollToElement(_demoQAPage.LeftPanelSubMenu("Sortable")).Click();
-            _index = 1;
+            Driver.NavigateTo(homePage.URL);
+            homePage.CategoryCard("Interactions").WaitAndClick();
+            Driver.ScrollToElement(demoQAPage.LeftPanelSubMenu("Sortable")).WaitAndClick();
+            index = 1;
         }
 
         [TearDown]
         public void TearDown()
         {
-            if (TestContext.CurrentContext.Result.Outcome != ResultState.Success)
-            {
-                TakeScreenshot(@"..\..\..\");
-            }
 
-            Driver.Quit();
         }
 
         [Test]
         public void NumberTwoChanged_When_MovedInList()
         {
-            Driver.ScrollToElement(_sortablePage.ListTab).Click();
+            Driver.ScrollToElement(sortablePage.ListTab).WaitAndClick();
 
-            Builder.DragAndDropToOffset(_sortablePage.ListOfNumbers[_index].WrappedElement, 0, 150).Perform();
+            Builder.DragAndDropToOffset(sortablePage.ListOfNumbers[index].WrappedElement, 0, 150).Perform();
 
-            _sortablePage.AssertTextByIndexList("Two", _index + 3);
+            sortablePage.AssertTextByIndexList("Two", index + 3);
         }
 
         [Test]
         public void NumberTwoChanged_When_MovedInGrid()
         {
-            Driver.ScrollToElement(_sortablePage.GridTab).Click();
+            Driver.ScrollToElement(sortablePage.GridTab).WaitAndClick();
 
-            Builder.DragAndDropToOffset(_sortablePage.GridOfNumbers[_index].WrappedElement, 20, 120).Perform();
+            Builder.DragAndDropToOffset(sortablePage.GridOfNumbers[index].WrappedElement, 20, 120).Perform();
 
-            _sortablePage.AssertTextByIndexGrid("Four", _index + 1);
+            sortablePage.AssertTextByIndexGrid("Four", index + 1);
         }
     }
 }

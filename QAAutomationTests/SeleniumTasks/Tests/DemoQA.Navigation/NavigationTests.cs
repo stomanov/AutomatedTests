@@ -1,34 +1,27 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.Interfaces;
-using SeleniumTasks.Pages.DemoQA;
+using SeleniumProject.BaseProject;
+using SeleniumProject.Pages.DemoQA;
 
-namespace SeleniumTasks.Tests.DemoQA.Navigation
+namespace SeleniumProject.Tests.DemoQA.Navigation
 {
     public class NavigationTests : BaseTest
     {
-        private HomePage _homePage;
-        private DemoQAPage _demoQAPage;
+        private HomePage homePage;
+        private DemoQAPage demoQAPage;
 
         [SetUp]
         public void Setup()
         {
-            InitializeMaximizedBrowser();
+            homePage = new HomePage(Driver);
+            demoQAPage = new DemoQAPage(Driver);
 
-            _homePage = new HomePage(Driver);
-            _demoQAPage = new DemoQAPage(Driver);
-            
-            Driver.NavigateTo(_homePage.URL);
+            Driver.NavigateTo(homePage.URL);
         }
 
         [TearDown]
         public void TearDown()
         {
-            if (TestContext.CurrentContext.Result.Outcome != ResultState.Success)
-            {
-                TakeScreenshot(@"..\..\..\");
-            }
 
-            Driver.Quit();
         }
 
         [Test]
@@ -42,11 +35,11 @@ namespace SeleniumTasks.Tests.DemoQA.Navigation
         [TestCase("Dynamic Properties")]
         public void LoadedSuccessfullyEachElementsPage_When_NavigateTo(string sectionName)
         {
-            _homePage.CategoryCard("Elements").Click();
+            homePage.CategoryCard("Elements").WaitAndClick();
 
-            Driver.ScrollToElement(_demoQAPage.LeftPanelSubMenu(sectionName)).Click();
+            Driver.ScrollToElement(demoQAPage.LeftPanelSubMenu(sectionName)).WaitAndClick();
 
-            _demoQAPage.AssertPageTitle(sectionName);
+            demoQAPage.AssertPageTitle(sectionName);
         }
 
         [Test]
@@ -54,26 +47,26 @@ namespace SeleniumTasks.Tests.DemoQA.Navigation
 
         public void LoadedSuccessfullyFormsPage_When_NavigateTo(string sectionName)
         {
-            _homePage.CategoryCard("Forms").Click();
+            homePage.CategoryCard("Forms").WaitAndClick();
 
-            Driver.ScrollToElement(_demoQAPage.LeftPanelSubMenu(sectionName)).Click();
+            Driver.ScrollToElement(demoQAPage.LeftPanelSubMenu(sectionName)).WaitAndClick();
 
-            _demoQAPage.AssertPageTitle(sectionName);
+            demoQAPage.AssertPageTitle(sectionName);
         }
 
         [Test]
         [TestCase("Browser Windows")]
         [TestCase("Alerts")]
         [TestCase("Frames")]
-        [TestCase("NestedFrames")]
+        [TestCase("Nested Frames")]
         [TestCase("Modal Dialogs")]
         public void LoadedSuccessfullyEachAlertsFrameAndWindowsPage_When_NavigateTo(string sectionName)
         {
-            _homePage.CategoryCard("Alerts, Frame & Windows").Click();
+            homePage.CategoryCard("Alerts, Frame & Windows").WaitAndClick();
 
-            Driver.ScrollToElement(_demoQAPage.LeftPanelSubMenu(sectionName)).Click();
+            Driver.ScrollToElement(demoQAPage.LeftPanelSubMenu(sectionName)).WaitAndClick();
 
-            _demoQAPage.AssertPageTitle(sectionName);
+            demoQAPage.AssertPageTitle(sectionName);
         }
 
         [Test]
@@ -88,11 +81,11 @@ namespace SeleniumTasks.Tests.DemoQA.Navigation
         [TestCase("Select Menu")]
         public void LoadedSuccessfullyEachWidgetsPage_When_NavigateTo(string sectionName)
         {
-            _homePage.CategoryCard("Widgets").Click();
+            homePage.CategoryCard("Widgets").WaitAndClick();
 
-            Driver.ScrollToElement(_demoQAPage.LeftPanelSubMenu(sectionName)).Click();
+            Driver.ScrollToElement(demoQAPage.LeftPanelSubMenu(sectionName)).WaitAndClick();
 
-            _demoQAPage.AssertPageTitle(sectionName);
+            demoQAPage.AssertPageTitle(sectionName);
         }
 
         [Test]
@@ -103,11 +96,11 @@ namespace SeleniumTasks.Tests.DemoQA.Navigation
         [TestCase("Dragabble")]
         public void LoadedSuccessfullyEachInteractionsPage_When_NavigateTo(string sectionName)
         {
-            _homePage.CategoryCard("Interactions").Click();
+            homePage.CategoryCard("Interactions").WaitAndClick();
 
-            Driver.ScrollToElement(_demoQAPage.LeftPanelSubMenu(sectionName)).Click();
+            Driver.ScrollToElement(demoQAPage.LeftPanelSubMenu(sectionName)).WaitAndClick();
 
-            _demoQAPage.AssertPageTitle(sectionName);
+            demoQAPage.AssertPageTitle(sectionName);
         }
-    }   
+    }
 }

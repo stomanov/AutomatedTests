@@ -1,29 +1,28 @@
 using IntegrationTests.Factories;
+using IntegrationTests.JsonExtension;
 using IntegrationTests.Models;
 using NUnit.Framework;
 using RestSharp;
-using System;
 
 namespace IntegrationTests.Tests
 {
     [TestFixture]
     public class ExamIntegrationTests : IntegrationBaseTests
     {
-        private RestClient _restClient;
-        private Author _author;
+        private RestClient restClient;
+        private Author author;
 
         [SetUp]
         public void Setup()
         {
-            _restClient = new RestClient();
-            _restClient.BaseUrl = new Uri("https://libraryjuly.azurewebsites.net");
-            _author = AuthorFactory.CreateAuthorWithId();
+            restClient = new RestClient("https://libraryjuly.azurewebsites.net");
+            author = AuthorFactory.CreateAuthorWithId();
         }
 
         [Test]
         public void Test1_PostNewAuthor()
         {
-            var response = PostNewAuthor(_author, _restClient);
+            var response = PostNewAuthor(author, restClient);
 
             Assert.IsTrue(response.IsSuccessful);
         }
@@ -31,10 +30,10 @@ namespace IntegrationTests.Tests
         [Test]
         public void Test2_GetAnAuthor()
         {
-            var response = PostNewAuthor(_author, _restClient);
+            var response = PostNewAuthor(author, restClient);
 
-            var postedAuthor = Author.FromJson(response.Content);
-            var responseAfterPostingAnAuthor = GetAuthor($"/api/authors/{postedAuthor.Id}", _restClient);
+            var postedAuthor = response.Content.FromJson<Author>();
+            var responseAfterPostingAnAuthor = GetAuthor($"/api/authors/{postedAuthor.Id}", restClient);
 
             Assert.AreEqual(responseAfterPostingAnAuthor.FirstName, postedAuthor.FirstName);
             Assert.AreEqual(responseAfterPostingAnAuthor.LastName, postedAuthor.LastName);
@@ -44,10 +43,10 @@ namespace IntegrationTests.Tests
         [Test]
         public void Test3_DeleteAnAuthor()
         {
-            var response = PostNewAuthor(_author, _restClient);
+            var response = PostNewAuthor(author, restClient);
 
-            var postedAuthor = Author.FromJson(response.Content);
-            var responseAfterDeletingAnAuthor = DeleteAnAuthor(postedAuthor, _restClient);
+            var postedAuthor = response.Content.FromJson<Author>();
+            var responseAfterDeletingAnAuthor = DeleteAnAuthor(postedAuthor, restClient);
 
             Assert.IsTrue(responseAfterDeletingAnAuthor.IsSuccessful);
         }

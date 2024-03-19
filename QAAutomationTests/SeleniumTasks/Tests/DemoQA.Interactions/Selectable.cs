@@ -1,99 +1,90 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.Interfaces;
-using SeleniumTasks.Pages.DemoQA;
-using SeleniumTasks.Pages.DemoQA.SelectablePage;
+using SeleniumProject.BaseProject;
+using SeleniumProject.Pages.DemoQA;
+using SeleniumProject.Pages.DemoQA.SelectablePage;
 using System.Linq;
 
-namespace SeleniumTasks.Tests.DemoQA.Interactions
+namespace SeleniumProject.Tests.DemoQA.Interactions
 {
     class Selectable : BaseTest
     {
-        private HomePage _homePage;
-        private DemoQAPage _demoQAPage;
-        private SelectablePage _selectablePage;
+        private HomePage homePage;
+        private DemoQAPage demoQAPage;
+        private SelectablePage selectablePage;
 
         [SetUp]
         public void SetUp()
         {
-            InitializeMaximizedBrowser();
+            homePage = new HomePage(Driver);
+            demoQAPage = new DemoQAPage(Driver);
+            selectablePage = new SelectablePage(Driver);
 
-            _homePage = new HomePage(Driver);
-            _demoQAPage = new DemoQAPage(Driver);
-            _selectablePage = new SelectablePage(Driver);
-
-            Driver.NavigateTo(_homePage.URL);
-            _homePage.CategoryCard("Interactions").Click();
-            Driver.ScrollToElement(_demoQAPage.LeftPanelSubMenu("Selectable")).Click();
+            Driver.NavigateTo(homePage.URL);
+            homePage.CategoryCard("Interactions").WaitAndClick();
+            Driver.ScrollToElement(demoQAPage.LeftPanelSubMenu("Selectable")).WaitAndClick();
         }
 
         [TearDown]
         public void TearDown()
         {
-            if (TestContext.CurrentContext.Result.Outcome != ResultState.Success)
-            {
-                TakeScreenshot(@"..\..\..\");
-            }
 
-            Driver.Quit();
         }
 
         [Test]
         public void NumbersColorChanged_When_SelectThem()
         {
-            Driver.ScrollToElement(_selectablePage.GridTab).Click();
+            Driver.ScrollToElement(selectablePage.GridTab).WaitAndClick();
 
             for (int number = 0; number < 9; number += 2)
             {
-                var colorBefore = _selectablePage.GridOfNumbers[number].WrappedElement.GetCssColor();
+                var colorBefore = selectablePage.GridOfNumbers[number].WrappedElement.GetCssColor();
 
-                _selectablePage.GridOfNumbers[number].Click();
+                selectablePage.GridOfNumbers[number].WaitAndClick();
 
-                var colorAfter = _selectablePage.GridOfNumbers[number].WrappedElement.GetCssColor();
+                var colorAfter = selectablePage.GridOfNumbers[number].WrappedElement.GetCssColor();
 
-                _selectablePage.AssertColorsBeforeAndAfter(colorBefore, colorAfter);
+                selectablePage.AssertColorsBeforeAndAfter(colorBefore, colorAfter);
             }
         }
 
         [Test]
         public void SentencesColorIsChanged_When_Selected()
         {
-            Driver.ScrollToElement(_selectablePage.ListTab).Click();
+            Driver.ScrollToElement(selectablePage.ListTab).WaitAndClick();
 
             for (int sentence = 0; sentence < 4; sentence += 2)
             {
-                var colorBefore = _selectablePage.ListOfSentences[sentence].WrappedElement.GetCssColor();
+                var colorBefore = selectablePage.ListOfSentences[sentence].WrappedElement.GetCssColor();
 
-                _selectablePage.ListOfSentences[sentence].Click();
+                selectablePage.ListOfSentences[sentence].WaitAndClick();
 
-                var colorAfter = _selectablePage.ListOfSentences[sentence].WrappedElement.GetCssColor();
+                var colorAfter = selectablePage.ListOfSentences[sentence].WrappedElement.GetCssColor();
 
-                _selectablePage.AssertColorsBeforeAndAfter(colorBefore, colorAfter);
-
+                selectablePage.AssertColorsBeforeAndAfter(colorBefore, colorAfter);
             }
         }
 
         [Test]
         public void AllItemsColorChanged_When_SelectThem()
         {
-            Driver.ScrollToElement(_selectablePage.ListTab).Click();
+            Driver.ScrollToElement(selectablePage.ListTab).WaitAndClick();
 
-            foreach (var sentence in _selectablePage.ListOfSentences)
+            foreach (var sentence in selectablePage.ListOfSentences)
             {
-                sentence.Click();
+                sentence.WaitAndClick();
             }
 
-            Assert.IsTrue(_selectablePage.ListOfSentences.All(o => o.WrappedElement.GetCssColor() == "rgba(0, 123, 255, 1)"));
+            Assert.IsTrue(selectablePage.ListOfSentences.All(o => o.WrappedElement.GetCssColor() == "rgba(0, 123, 255, 1)"));
         }
 
         [Test]
         public void SelectedItemColorChange_When_SelectThemOneByOne([Range(0, 3)] int sentence)
         {
-            Driver.ScrollToElement(_selectablePage.ListTab).Click();
+            Driver.ScrollToElement(selectablePage.ListTab).WaitAndClick();
 
-            _selectablePage.ListOfSentences[sentence].Click();
+            selectablePage.ListOfSentences[sentence].WaitAndClick();
 
-            Assert.AreEqual(_selectablePage.ListOfSentences[sentence].WrappedElement.GetCssColor(), "rgba(0, 123, 255, 1)");
+            Assert.AreEqual(selectablePage.ListOfSentences[sentence].WrappedElement.GetCssColor(), "rgba(0, 123, 255, 1)");
         }
-
     }
 }

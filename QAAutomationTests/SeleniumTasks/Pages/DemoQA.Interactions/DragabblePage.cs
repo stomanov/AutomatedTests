@@ -1,14 +1,14 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using SeleniumTasks.Core;
+using SeleniumProject.BaseProject;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages.DemoQA.DragabblePage
+namespace SeleniumProject.Pages.DemoQA.DragabblePage
 {
     public class DragabblePage : BasePage
     {
-        public DragabblePage(WebDriver driver) : base (driver)
-        {
-        }
+        public DragabblePage(WebDriver driver) : base(driver) { }
 
         public WebElement SimpleTab => Driver.FindElement(By.XPath("//*[@id='draggableExample-tab-simple']"));
 

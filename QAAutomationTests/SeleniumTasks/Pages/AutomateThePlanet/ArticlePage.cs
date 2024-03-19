@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using OpenQA.Selenium;
-using SeleniumTasks.Core;
+using SeleniumProject.BaseProject;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages.AutomateThePlanet
+namespace SeleniumProject.Pages.AutomateThePlanet
 {
     public class ArticlePage : BasePage
     {
-        public ArticlePage(WebDriver driver) 
-            : base(driver)
-        {
-        }
+        public ArticlePage(WebDriver driver) : base(driver) { }
 
         public WebElement QuickNavigation => Driver.FindVisibleElement(By.XPath("//*[@class='tve_ct_title']"));
 

@@ -1,14 +1,13 @@
 ﻿using OpenQA.Selenium;
-using SeleniumTasks.Core;
 using System.Threading;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages.DemoQA
+namespace SeleniumProject.Pages.DemoQA
 {
     public class ProgressBarPage : DemoQAPage
     {
-        public ProgressBarPage(WebDriver driver) : base(driver)
-        {
-        }
+        public ProgressBarPage(WebDriver driver) : base(driver) { }
 
         public WebElement StartStopButton => Driver.FindClickableElement(By.XPath("//*[@id='startStopButton']"));
 
@@ -17,9 +16,9 @@ namespace SeleniumTasks.Pages.DemoQA
         public void StartAndThenStopProgressBar()
         {
             Thread.Sleep(400);
-            StartStopButton.Click();
-            Thread.Sleep(1880);
-            StartStopButton.Click();
+            StartStopButton.WaitAndClick();
+            Thread.Sleep(2000);
+            StartStopButton.WaitAndClick();
         }
     }
 }

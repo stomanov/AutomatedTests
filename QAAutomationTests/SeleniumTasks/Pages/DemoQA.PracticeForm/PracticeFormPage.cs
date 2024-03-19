@@ -1,41 +1,39 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using SeleniumTasks.Core;
-using SeleniumTasks.Factories.DemoQA;
-using SeleniumTasks.Models.DemoQA;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
+using SeleniumProject.BaseProject;
+using SeleniumProject.Entities.DemoQA;
 
-namespace SeleniumTasks.Pages.DemoQA.PracticeForm
+namespace SeleniumProject.Pages.DemoQA.PracticeForm
 {
     public class PracticeFormPage : BasePage
     {
-        public PracticeFormPage(WebDriver driver)
-            : base(driver)
-        {
-        }
+        public PracticeFormPage(WebDriver driver) : base(driver) { }
 
         public void FillRegistrationForm(PracticeFormModel user)
         {
-            FirstName.TypeText(user.FirstName);
-            LastName.TypeText(user.LastName);
-            Email.TypeText(user.Email);
-            Gender(user.Gender).Click();
-            PhoneNumber.TypeText(user.PhoneNumber);
+            FirstName.ClearAndFillText(user.FirstName);
+            LastName.ClearAndFillText(user.LastName);
+            Email.ClearAndFillText(user.Email);
+            Gender(user.Gender).WaitAndClick();
+            PhoneNumber.ClearAndFillText(user.PhoneNumber);
             SelectDate();
             SelectSubjects();
-            Hobbies(user.Hobby1).Click();
-            Hobbies(user.Hobby2).Click();
-            Address.TypeText(user.Address);
+            Hobbies(user.Hobby1).WaitAndClick();
+            Hobbies(user.Hobby2).WaitAndClick();
+            Address.ClearAndFillText(user.Address);
             SelectState(user.State);
             SelectCity(user.City);
         }
 
         public void SelectDate()
         {
-            DateOfBirthMenu.Click();
+            DateOfBirthMenu.WaitAndClick();
 
             var month = new SelectElement(MonthDateDropDown.WrappedElement);
             month.SelectByValue(PracticeFormFactory.CreateValidUser().Month);
@@ -45,7 +43,7 @@ namespace SeleniumTasks.Pages.DemoQA.PracticeForm
 
             var daysInMonth = new Random();
             var randomDayOfTheMonth = daysInMonth.Next(DaysInMonth.Count);
-            DaysInMonth[randomDayOfTheMonth].Click();
+            DaysInMonth[randomDayOfTheMonth].WaitAndClick();
         }
 
         public void SelectSubjects()
@@ -55,21 +53,19 @@ namespace SeleniumTasks.Pages.DemoQA.PracticeForm
 
         public void SelectState(string state)
         {
-            State.Click();
-
-            StateDropDown(state).Click();
+            State.WaitAndClick();
+            StateDropDown(state).WaitAndClick();
         }
 
         public void SelectCity(string city)
         {
-            City.Click();
-
-            CityDropDown(city).Click();
+            City.WaitAndClick();
+            CityDropDown(city).WaitAndClick();
         }
 
         public void ClickSubmit()
         {
-            Driver.ScrollToElement(SubmitButton).Click();
+            Driver.ScrollToElement(SubmitButton).WaitAndClick();
         }
 
         public PracticeFormSection Popup => new PracticeFormSection(Driver);
@@ -119,7 +115,7 @@ namespace SeleniumTasks.Pages.DemoQA.PracticeForm
         }
 
         public WebElement SubmitButton => Driver.FindElement(By.XPath("//*[@id='submit']"));
-
+         
         public void AssertSuccessful_When_FillFormWithValidData(string element)
         {
             Assert.AreEqual("Thanks for submitting the form", element);

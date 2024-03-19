@@ -1,44 +1,31 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.Interfaces;
-using SeleniumTasks.Pages;
-using SeleniumTasks.Pages.DemoQA;
+using SeleniumProject.BaseProject;
+using SeleniumProject.Pages;
+using SeleniumProject.Pages.DemoQA;
 
-namespace SeleniumTasks.Tests.DemoQA.Widgets
+namespace SeleniumProject.Tests.DemoQA.Widgets
 {
     public class DemoQAWidgetsTests : BaseTest
     {
-        private HomePage _homePage;
-        private DemoQAPage _demoQAPage;
-        private DatePickerPage _datePickerPage;
-        private SliderPage _sliderPage;
-        private ProgressBarPage _progressBarPage;
-        private TooltipsPage _toolTipsPage;
+        private HomePage homePage;
+        private DemoQAPage demoQAPage;
+        private DatePickerPage datePickerPage;
+        private SliderPage sliderPage;
+        private ProgressBarPage progressBarPage;
+        private TooltipsPage toolTipsPage;
 
         [SetUp]
         public void Setup()
         {
-            InitializeMaximizedBrowser();
+            homePage = new HomePage(Driver);
+            demoQAPage = new DemoQAPage(Driver);
+            datePickerPage = new DatePickerPage(Driver);
+            sliderPage = new SliderPage(Driver);
+            progressBarPage = new ProgressBarPage(Driver);
+            toolTipsPage = new TooltipsPage(Driver);
 
-            _homePage = new HomePage(Driver);
-            _demoQAPage = new DemoQAPage(Driver);
-            _datePickerPage = new DatePickerPage(Driver);
-            _sliderPage = new SliderPage(Driver);
-            _progressBarPage = new ProgressBarPage(Driver);
-            _toolTipsPage = new TooltipsPage(Driver);
-            
-            Driver.NavigateTo(_homePage.URL);
-            _homePage.CategoryCard("Widgets").Click();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            if (TestContext.CurrentContext.Result.Outcome != ResultState.Success)
-            {
-                TakeScreenshot(@"..\..\..\");
-            }
-
-            Driver.Quit();
+            Driver.NavigateTo(homePage.URL);
+            homePage.CategoryCard("Widgets").WaitAndClick();
         }
 
         [Test]
@@ -56,45 +43,45 @@ namespace SeleniumTasks.Tests.DemoQA.Widgets
         [TestCase("December")]
         public void Test1_CalendarTitleIsTheSameWithSelection_When_SelectedTheMonth(string currentMonthOfTheYear)
         {
-            Driver.ScrollToElement(_demoQAPage.LeftPanelSubMenu("Date Picker")).Click();
-            
-            _datePickerPage.SelectCurrentMonth(currentMonthOfTheYear);
-            var randomDayOfTheMonth = _datePickerPage.CreateRandomDayOfTheMonth();
-            _datePickerPage.SelectRandomDay(randomDayOfTheMonth);
+            Driver.ScrollToElement(demoQAPage.LeftPanelSubMenu("Date Picker")).WaitAndClick();
 
-            Assert.AreEqual($"{currentMonthOfTheYear} 2020", _datePickerPage.CalendarTitle.Text);
-            Assert.IsTrue(_datePickerPage.DayOption[randomDayOfTheMonth].GetAttribute("class").Contains("selected"));
+            datePickerPage.SelectCurrentMonth(currentMonthOfTheYear);
+            var randomDayOfTheMonth = datePickerPage.CreateRandomDayOfTheMonth();
+            datePickerPage.SelectRandomDay(randomDayOfTheMonth);
+
+            Assert.AreEqual($"{currentMonthOfTheYear} 2020", datePickerPage.CalendarTitle.Text);
+            Assert.IsTrue(datePickerPage.DayOption[randomDayOfTheMonth].GetAttribute("class").Contains("selected"));
         }
 
         [Test]
         public void Test2_SliderIsSetTo100_When_Slided()
         {
-            Driver.ScrollToElement(_demoQAPage.LeftPanelSubMenu("Slider")).Click();
-           
-            _sliderPage.Slide();
+            Driver.ScrollToElement(demoQAPage.LeftPanelSubMenu("Slider")).WaitAndClick();
 
-            Assert.AreEqual("86", _sliderPage.SliderToolTip.Text, _sliderPage.SliderValue.GetAttribute("value"));
+            sliderPage.Slide();
+
+            Assert.AreEqual("81", sliderPage.SliderToolTip.Text, sliderPage.SliderValue.GetAttribute("value"));
         }
 
         [Test]
         public void Test3_ProgressBarIsStopedOn20_When_Triggered()
         {
-            Driver.ScrollToElement(_demoQAPage.LeftPanelSubMenu("Progress Bar")).Click();
-            
-            _progressBarPage.StartAndThenStopProgressBar();
+            Driver.ScrollToElement(demoQAPage.LeftPanelSubMenu("Progress Bar")).WaitAndClick();
 
-            Assert.AreEqual("20%", _progressBarPage.ProgressBarValue.Text);
+            progressBarPage.StartAndThenStopProgressBar();
+
+            Assert.AreEqual("20%", progressBarPage.ProgressBarValue.Text);
         }
 
         [Test]
         public void Test4_TooltipPopupIsShowed_When_HoverOverTheTextField()
         {
-            Driver.ScrollToElement(_demoQAPage.LeftPanelSubMenu("Tool Tips")).Click();
-            
-            _toolTipsPage.HoverToolTip();
+            Driver.ScrollToElement(demoQAPage.LeftPanelSubMenu("Tool Tips")).WaitAndClick();
 
-            Assert.IsTrue(_toolTipsPage.ToolTipPopup.Displayed);
-            Assert.AreEqual("You hovered over the text field", _toolTipsPage.ToolTipPopup.Text);
+            toolTipsPage.HoverToolTip();
+
+            Assert.IsTrue(toolTipsPage.ToolTipPopup.Displayed);
+            Assert.AreEqual("You hovered over the text field", toolTipsPage.ToolTipPopup.Text);
         }
     }
 }

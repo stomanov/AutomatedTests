@@ -1,14 +1,14 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using SeleniumTasks.Core;
+using SeleniumProject.BaseProject;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages.DemoQA
+namespace SeleniumProject.Pages.DemoQA
 {
     public class DemoQAPage : BasePage
     {
-        public DemoQAPage(WebDriver driver) : base(driver)
-        {
-        }
+        public DemoQAPage(WebDriver driver) : base(driver) { }
 
         public WebElement PageTitle => Driver.FindExistingElement(By.XPath("//div[@class='main-header']"));
         

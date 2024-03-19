@@ -1,14 +1,14 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using SeleniumTasks.Core;
+using SeleniumProject.BaseProject;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages.DemoQA.ResizablePage
+namespace SeleniumProject.Pages.DemoQA.ResizablePage
 {
     public class ResizablePage : BasePage
     {
-        public ResizablePage(WebDriver driver) : base (driver)
-        {
-        }
+        public ResizablePage(WebDriver driver) : base (driver) { }
 
         public WebElement resizableLimitedBox => Driver.FindElement(By.XPath("//*[@id='resizableBoxWithRestriction']"));
         

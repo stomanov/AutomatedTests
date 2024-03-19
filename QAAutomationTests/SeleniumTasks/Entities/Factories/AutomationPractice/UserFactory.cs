@@ -1,8 +1,7 @@
 ﻿using AutoFixture;
-using SeleniumTasks.Models.AutomationPractice;
 using System;
 
-namespace SeleniumTasks.Factories.AutomationPractice
+namespace SeleniumProject.Entities.AutomationPractice
 {
     public static class UserFactory
     {

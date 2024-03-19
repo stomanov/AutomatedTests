@@ -1,14 +1,13 @@
 ﻿using OpenQA.Selenium;
-using SeleniumTasks.Core;
+using SeleniumProject.BaseProject;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages.DemoQA.PracticeForm
+namespace SeleniumProject.Pages.DemoQA.PracticeForm
 {
     public class PracticeFormSection : BasePage
     {
-        public PracticeFormSection(WebDriver driver)
-            :base(driver)
-        {
-        }
+        public PracticeFormSection(WebDriver driver) : base(driver) { }
 
         public WebElement ThanksMessage => Driver.FindElement(By.XPath("//*[@id='example-modal-sizes-title-lg']"));
     }

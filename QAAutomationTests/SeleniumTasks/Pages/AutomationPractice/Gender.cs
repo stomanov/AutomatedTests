@@ -1,4 +1,4 @@
-﻿namespace SeleniumTasks.Pages.AutomationPractice
+﻿namespace SeleniumProject.Pages.AutomationPractice
 { 
     public enum Gender
     {

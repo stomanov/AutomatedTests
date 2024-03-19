@@ -1,16 +1,15 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using SeleniumTasks.Core;
 using System.Collections.Generic;
 using System.Linq;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages.DemoQA
+namespace SeleniumProject.Pages.DemoQA
 {
     public class AutoCompletePage : DemoQAPage
     {
-        public AutoCompletePage(WebDriver driver) : base(driver)
-        {
-        }
+        public AutoCompletePage(WebDriver driver) : base(driver) { }
 
         public WebElement MultiColorNameField => Driver.FindExistingElement(By.XPath("//*[@id='autoCompleteMultipleInput']"));
 
@@ -28,9 +27,9 @@ namespace SeleniumTasks.Pages.DemoQA
 
         public void TypingOnceInMultiColorNameField(string colorName)
         {
-            MultiColorNameField.Click();
-            MultiColorNameField.SendKeys(colorName);
-            MultiColorNameField.SendKeys(Keys.Enter);
+            MultiColorNameField.WaitAndClick();
+            MultiColorNameField.FillText(colorName);
+            MultiColorNameField.FillText(Keys.Enter);
         }
 
         public void TypingOnceInSingleColorNameField(string colorName)
@@ -40,10 +39,10 @@ namespace SeleniumTasks.Pages.DemoQA
 
         public void TypingTwiceInMultiColorNameField(string colorName, string secondType)
         {
-            MultiColorNameField.Click();
-            MultiColorNameField.SendKeys(colorName);
-            MultiColorNameField.SendKeys(Keys.Enter);
-            MultiColorNameField.SendKeys(secondType);
+            MultiColorNameField.WaitAndClick();
+            MultiColorNameField.FillText(colorName);
+            MultiColorNameField.FillText(Keys.Enter);
+            MultiColorNameField.FillText(secondType);
         }
 
         public void AssertColorsNamesAreDisplayed()

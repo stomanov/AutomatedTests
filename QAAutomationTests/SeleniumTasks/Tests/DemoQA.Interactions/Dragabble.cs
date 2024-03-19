@@ -1,99 +1,92 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.Interfaces;
-using SeleniumTasks.Pages.DemoQA;
-using SeleniumTasks.Pages.DemoQA.DragabblePage;
+using SeleniumProject.BaseProject;
+using SeleniumProject.Pages.DemoQA;
+using SeleniumProject.Pages.DemoQA.DragabblePage;
 
-namespace SeleniumTasks.Tests.DemoQA.Interactions
+namespace SeleniumProject.Tests.DemoQA.Interactions
 {
     class Dragabble : BaseTest
     {
-        private HomePage _homePage;
-        private DemoQAPage _demoQAPage;
-        private DragabblePage _dragabblePage;
+        private HomePage homePage;
+        private DemoQAPage demoQAPage;
+        private DragabblePage dragabblePage;
 
         [SetUp]
         public void SetUp()
         {
-            InitializeMaximizedBrowser();
+            homePage = new HomePage(Driver);
+            demoQAPage = new DemoQAPage(Driver);
+            dragabblePage = new DragabblePage(Driver);
 
-            _homePage = new HomePage(Driver);
-            _demoQAPage = new DemoQAPage(Driver);
-            _dragabblePage = new DragabblePage(Driver);
-
-            Driver.NavigateTo(_homePage.URL);
-            _homePage.CategoryCard("Interactions").Click();
-            Driver.ScrollToElement(_demoQAPage.LeftPanelSubMenu("Dragabble")).Click();
+            Driver.NavigateTo(homePage.URL);
+            homePage.CategoryCard("Interactions").WaitAndClick();
+            Driver.ScrollToElement(demoQAPage.LeftPanelSubMenu("Dragabble")).WaitAndClick();
         }
 
         [TearDown]
         public void TearDown()
         {
-            if (TestContext.CurrentContext.Result.Outcome != ResultState.Success)
-            {
-                TakeScreenshot(@"..\..\..\");
-            }
 
-            Driver.Quit();
         }
 
         [Test]
         public void ElementChangingCoordinates_When_DragInAndOut()
         {
-            Driver.ScrollToElement(_dragabblePage.SimpleTab).Click();
+            Driver.ScrollToElement(dragabblePage.SimpleTab).WaitAndClick();
 
-            Builder.DragAndDrop(_dragabblePage.DragBox.WrappedElement, _dragabblePage.OutsideDrag.WrappedElement).Perform();
+            Builder.DragAndDrop(dragabblePage.DragBox.WrappedElement, dragabblePage.OutsideDrag.WrappedElement).Perform();
 
-            double dragPosXBefore = _dragabblePage.DragBox.Location.X;
-            double dragPosYBefore = _dragabblePage.DragBox.Location.Y;
+            double dragPosXBefore = dragabblePage.DragBox.Location.X;
+            double dragPosYBefore = dragabblePage.DragBox.Location.Y;
 
-            Builder.DragAndDropToOffset(_dragabblePage.DragBox.WrappedElement, 0, -275).Perform();
+            Builder.DragAndDropToOffset(dragabblePage.DragBox.WrappedElement, 0, -275).Perform();
 
-            double dragPosXAfter = _dragabblePage.DragBox.Location.X;
-            double dragPosYAfter = _dragabblePage.DragBox.Location.Y;
+            double dragPosXAfter = dragabblePage.DragBox.Location.X;
+            double dragPosYAfter = dragabblePage.DragBox.Location.Y;
 
-            _dragabblePage.AssertCoordinates(781, dragPosXBefore, 3);
-            _dragabblePage.AssertCoordinates(569, dragPosYBefore, 3);
-            _dragabblePage.AssertCoordinates(781, dragPosXAfter, 3);
-            _dragabblePage.AssertCoordinates(294, dragPosYAfter, 3);
+            dragabblePage.AssertCoordinates(781, dragPosXBefore, 3);
+            dragabblePage.AssertCoordinates(569, dragPosYBefore, 3);
+            dragabblePage.AssertCoordinates(781, dragPosXAfter, 3);
+            dragabblePage.AssertCoordinates(294, dragPosYAfter, 3);
         }
 
         [Test]
         public void ElementsChangingCoordinatesXAndY_When_DragOnXAndOnY()
         {
-            Driver.ScrollToElement(_dragabblePage.AxisTab).Click();
+            Driver.ScrollToElement(dragabblePage.AxisTab).WaitAndClick();
 
-            double dragBoxXBefore = _dragabblePage.DragBoxX.Location.X;
-            double dragBoxYBefore = _dragabblePage.DragBoxY.Location.Y;
+            double dragBoxXBefore = dragabblePage.DragBoxX.Location.X;
+            double dragBoxYBefore = dragabblePage.DragBoxY.Location.Y;
 
-            Builder.DragAndDrop(_dragabblePage.DragBoxX.WrappedElement, _dragabblePage.OutsideDragAxis.WrappedElement).Perform();
-            Builder.DragAndDrop(_dragabblePage.DragBoxY.WrappedElement, _dragabblePage.OutsideDragAxis.WrappedElement).Perform();
+            Builder.DragAndDrop(dragabblePage.DragBoxX.WrappedElement, dragabblePage.OutsideDragAxis.WrappedElement).Perform();
+            Builder.DragAndDrop(dragabblePage.DragBoxY.WrappedElement, dragabblePage.OutsideDragAxis.WrappedElement).Perform();
 
-            double dragBoxXAfter = _dragabblePage.DragBoxX.Location.X;
-            double dragBoxYAfter = _dragabblePage.DragBoxY.Location.Y;
+            double dragBoxXAfter = dragabblePage.DragBoxX.Location.X;
+            double dragBoxYAfter = dragabblePage.DragBoxY.Location.Y;
 
-            _dragabblePage.AssertCoordinates(629, dragBoxXBefore, 3);
-            _dragabblePage.AssertCoordinates(318, dragBoxYBefore, 3);
-            _dragabblePage.AssertCoordinates(782, dragBoxXAfter, 3);
-            _dragabblePage.AssertCoordinates(609, dragBoxYAfter, 3);
+            dragabblePage.AssertCoordinates(629, dragBoxXBefore, 3);
+            dragabblePage.AssertCoordinates(318, dragBoxYBefore, 3);
+            dragabblePage.AssertCoordinates(782, dragBoxXAfter, 3);
+            dragabblePage.AssertCoordinates(609, dragBoxYAfter, 3);
         }
 
         [Test]
         public void ElementCantDragOutsideTheBox_When_TryToDragOutside()
         {
-            Driver.ScrollToElement(_dragabblePage.ContainerTab).Click();
+            Driver.ScrollToElement(dragabblePage.ContainerTab).WaitAndClick();
 
-            double textBoxXBefore = _dragabblePage.TextBox.Location.X;
-            double textBoxYBefore = _dragabblePage.TextBox.Location.Y;
+            double textBoxXBefore = dragabblePage.TextBox.Location.X;
+            double textBoxYBefore = dragabblePage.TextBox.Location.Y;
 
-            Builder.DragAndDropToOffset(_dragabblePage.TextBox.WrappedElement, 562, 106).Perform();
+            Builder.DragAndDropToOffset(dragabblePage.TextBox.WrappedElement, 562, 106).Perform();
 
-            double textBoxXAfter = _dragabblePage.TextBox.Location.X;
-            double textBoxYAfter = _dragabblePage.TextBox.Location.Y;
+            double textBoxXAfter = dragabblePage.TextBox.Location.X;
+            double textBoxYAfter = dragabblePage.TextBox.Location.Y;
 
-            _dragabblePage.AssertCoordinates(475, textBoxXBefore, 3);
-            _dragabblePage.AssertCoordinates(314, textBoxYBefore, 3);
-            _dragabblePage.AssertCoordinates(1037, textBoxXAfter, 3);
-            _dragabblePage.AssertCoordinates(420, textBoxYAfter, 3);
+            dragabblePage.AssertCoordinates(475, textBoxXBefore, 3);
+            dragabblePage.AssertCoordinates(314, textBoxYBefore, 3);
+            dragabblePage.AssertCoordinates(1037, textBoxXAfter, 3);
+            dragabblePage.AssertCoordinates(420, textBoxYAfter, 3);
         }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using SeleniumTasks.Core;
+using SeleniumProject.BaseProject;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages.DemoQA.DroppablePage
+namespace SeleniumProject.Pages.DemoQA.DroppablePage
 {
     public class DroppablePage : BasePage
     {
-        public DroppablePage(WebDriver driver) : base (driver)
-        {
-        }
+        public DroppablePage(WebDriver driver) : base (driver) { }
 
         public WebElement SourceBox => Driver.FindExistingElement(By.XPath("//*[@id='draggable']"));
 

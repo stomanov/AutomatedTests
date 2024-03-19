@@ -1,15 +1,14 @@
 ﻿using OpenQA.Selenium;
-using SeleniumTasks.Core;
 using System.Collections.Generic;
 using System.Linq;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages.AutomationPractice
+namespace SeleniumProject.Pages.AutomationPractice
 {
     public class AuthenticationPage : HomePage
     {
-        public AuthenticationPage(WebDriver driver) : base(driver)
-        {
-        }
+        public AuthenticationPage(WebDriver driver) : base(driver) { }
 
         public WebElement AlertMessage => Driver.FindExistingElement(By.XPath("//*[@id='center_column']//div[(@class='alert alert-danger')]"));
 

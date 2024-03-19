@@ -1,12 +1,13 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
 
-namespace SeleniumTasks.Core
+namespace SeleniumProject.BaseProject
 {
     public class WebElement
     {
@@ -16,13 +17,14 @@ namespace SeleniumTasks.Core
 
         public By By { get; }
 
-        private WebDriverWait Wait => new WebDriverWait(WrappedDriver, TimeSpan.FromSeconds(24));
+        private IWait<IWebDriver> Wait { get; }
 
-        public WebElement(IWebDriver webDriver, IWebElement webElement, By by)
+        public WebElement(IWebDriver webDriver, IWebElement webElement, By by, double waitTimeValue = 20)
         {
             WrappedDriver = webDriver;
             WrappedElement = webElement;
             By = by;
+            Wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(waitTimeValue));
         }
 
         public string Text => WrappedElement?.Text;
@@ -39,13 +41,13 @@ namespace SeleniumTasks.Core
 
         public Point Location => WrappedElement.Location;
 
-        public void SendKeys(string text)
+        public void FillText(string text)
         {
             Debug.WriteLine($"Text {text} is written in element with locator {By}");
             WrappedElement.SendKeys(text);
         }
 
-        public void Click()
+        public void WaitAndClick()
         {
             WaitToBeClickable(By);
             WrappedElement?.Click();
@@ -56,7 +58,7 @@ namespace SeleniumTasks.Core
             WrappedElement.Clear();
         }
 
-        public void TypeText(string text)
+        public void ClearAndFillText(string text)
         {
             Debug.WriteLine($"Text {text} is written in element with locator {By}");
             WrappedElement.Clear();
@@ -78,60 +80,43 @@ namespace SeleniumTasks.Core
             return WrappedElement?.GetCssValue(cssAttribute);
         }
 
-        public string GetProperty(string property)
-        {
-            return WrappedElement?.GetProperty(property);
-        }
-
         public WebElement FindElement(By by)
         {
             IWebElement nativeWebElement = Wait.Until(d => d.FindElement(by));
-            WebElement element = new WebElement(WrappedDriver, nativeWebElement, by);
-
-            return element;
+            return new WebElement(WrappedDriver, nativeWebElement, by);
         }
 
         public WebElement FindExistingElement(By by)
         {
-            IWebElement nativeWebElement = Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(by));
-            WebElement element = new WebElement(WrappedDriver, nativeWebElement, by);
-
-            return element;
+            IWebElement nativeWebElement = Wait.Until(ExpectedConditions.ElementExists(by));
+            return new WebElement(WrappedDriver, nativeWebElement, by);
         }
 
         public WebElement FindClickableElement(By by)
         {
-            IWebElement nativeWebElement = Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(by));
-            WebElement element = new WebElement(WrappedDriver, nativeWebElement, by);
-
-            return element;
+            IWebElement nativeWebElement = Wait.Until(ExpectedConditions.ElementToBeClickable(by));
+            return new WebElement(WrappedDriver, nativeWebElement, by);
         }
 
         public WebElement FindVisibleElement(By by)
         {
-            IWebElement nativeWebElement = Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
-            WebElement element = new WebElement(WrappedDriver, nativeWebElement, by);
-
-            return element;
+            IWebElement nativeWebElement = Wait.Until(ExpectedConditions.ElementIsVisible(by));
+            return new WebElement(WrappedDriver, nativeWebElement, by);
         }
 
         public List<WebElement> FindElements(By by)
         {
-            ReadOnlyCollection<IWebElement> nativeWebElements = Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.PresenceOfAllElementsLocatedBy(by));
+            ReadOnlyCollection<IWebElement> nativeWebElements = Wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(by));
+            List<WebElement> elements = new List<WebElement>();
 
-            var elements = new List<WebElement>();
             foreach (var nativeWebElement in nativeWebElements)
-            {
-                WebElement element = new WebElement(WrappedDriver, nativeWebElement, by);
-                elements.Add(element);
-            }
-
+                elements.Add(new WebElement(WrappedDriver, nativeWebElement, by));
             return elements;
         }
 
         private void WaitToBeClickable(By by)
         {
-            Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(by));
+            Wait.Until(ExpectedConditions.ElementToBeClickable(by));
         }
     }
 }

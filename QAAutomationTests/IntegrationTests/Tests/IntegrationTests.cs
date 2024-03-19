@@ -1,4 +1,5 @@
 using IntegrationTests.Factories;
+using IntegrationTests.JsonExtension;
 using IntegrationTests.Models;
 using NUnit.Framework;
 using RestSharp;
@@ -10,27 +11,27 @@ namespace IntegrationTests.Tests
     public class IntegrationTests : IntegrationBaseTests
     {
         private RestClient _restClient;
+        private RestClientOptions _restClientOptions;
         private Author _author;
         private Author _postedAuthor;
         private Book _book;
         private Book _postedBook;
-        private IRestResponse _postNewAuthor;
-        private IRestResponse _deletePostedAuthor;
-        private IRestResponse _postNewBook;
-        private IRestResponse _deletePostedBook;
+        private RestResponse _postNewAuthor;
+        private RestResponse _deletePostedAuthor;
+        private RestResponse _postNewBook;
+        private RestResponse _deletePostedBook;
 
         [SetUp]
         public void SetUp()
         {
-            _restClient = new RestClient();
-            _restClient.BaseUrl = new Uri("https://libraryjuly.azurewebsites.net");
+            _restClient = new RestClient("https://libraryjuly.azurewebsites.net");
             _author = AuthorFactory.CreateAuthorWithId();
             _book = BookFactory.CreateBook();
             
             _postNewAuthor = PostNewAuthor(_author, _restClient);
-            _postedAuthor = Author.FromJson(_postNewAuthor.Content);
+            _postedAuthor = _postNewAuthor.Content.FromJson<Author>();
             _postNewBook = PostBookForAuthor(_postedAuthor, _book, _restClient);
-            _postedBook = Book.FromJson(_postNewBook.Content);
+            _postedBook = _postNewBook.Content.FromJson<Book>();
         }
 
         [TearDown]
@@ -75,11 +76,11 @@ namespace IntegrationTests.Tests
         [Test]
         public void Test5_GetBookForAuthor()
         {
-            var responseAfterGetBookForAuthor = GetBookForAuthor(_postedAuthor, _postedBook, _restClient);
+            var response = GetBookForAuthor(_postedAuthor, _postedBook, _restClient);
 
-            var returnedBook = Book.FromJson(responseAfterGetBookForAuthor.Content);
+            var returnedBook = response.Content.FromJson<Book>();
 
-            Assert.IsTrue(responseAfterGetBookForAuthor.IsSuccessful);
+            Assert.IsTrue(response.IsSuccessful);
             Assert.AreEqual(_postedBook.Id, returnedBook.Id);
             Assert.AreEqual(_postedBook.Title, returnedBook.Title);
             Assert.AreEqual(_postedBook.Description, returnedBook.Description);
@@ -98,19 +99,19 @@ namespace IntegrationTests.Tests
         [Test]
         public void Test7_DeleteBookForAuthor()
         {
-            var responseAfterDeletingABookForAuthor = DeleteBookForAuthor(_postedAuthor, _postedBook, _restClient);
+            var response = DeleteBookForAuthor(_postedAuthor, _postedBook, _restClient);
 
-            Assert.IsTrue(responseAfterDeletingABookForAuthor.IsSuccessful);
-            Assert.AreEqual("NoContent", responseAfterDeletingABookForAuthor.StatusCode.ToString());
+            Assert.IsTrue(response.IsSuccessful);
+            Assert.AreEqual("NoContent", response.StatusCode.ToString());
         }
 
         [Test]
         public void Test8_DeleteAnAuthor()
         {
-            var responseAfterDeletingAnAuthor = DeleteAnAuthor(_postedAuthor, _restClient);
+            var response = DeleteAnAuthor(_postedAuthor, _restClient);
 
-            Assert.IsTrue(responseAfterDeletingAnAuthor.IsSuccessful);
-            Assert.AreEqual("NoContent", responseAfterDeletingAnAuthor.StatusCode.ToString());
+            Assert.IsTrue(response.IsSuccessful);
+            Assert.AreEqual("NoContent", response.StatusCode.ToString());
         }
     }
 }

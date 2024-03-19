@@ -1,4 +1,4 @@
-﻿namespace SeleniumTasks.Models.DemoQA
+﻿namespace SeleniumProject.Entities.DemoQA
 {
     public class PracticeFormModel
     {

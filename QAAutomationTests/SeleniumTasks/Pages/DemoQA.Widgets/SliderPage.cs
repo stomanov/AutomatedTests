@@ -1,13 +1,12 @@
 ﻿using OpenQA.Selenium;
-using SeleniumTasks.Core;
+using WebDriver = SeleniumProject.BaseProject.WebDriver;
+using WebElement = SeleniumProject.BaseProject.WebElement;
 
-namespace SeleniumTasks.Pages.DemoQA
+namespace SeleniumProject.Pages.DemoQA
 {
     public class SliderPage : DemoQAPage
     {
-        public SliderPage(WebDriver driver) : base(driver)
-        {
-        }
+        public SliderPage(WebDriver driver) : base(driver) { }
 
         public WebElement Slider => Driver.FindClickableElement(By.XPath("//*[@id='sliderContainer']//input[contains(@class, 'range-slider')]"));
 
